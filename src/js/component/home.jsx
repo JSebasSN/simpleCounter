@@ -1,20 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const ContadorSegundos = () => {
   const [seconds, setSeconds] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds(prevSeconds => prevSeconds + 1);
-    }, 1000);
-    
-    return () => clearInterval(interval);
-  }, []);
+  
+  const updateCounter = () => {
+    setSeconds(prevSeconds => {
+      
+      setTimeout(updateCounter, 1000);
+      return prevSeconds + 1;
+    });
+  };
+
+  
+  if (seconds === 0) {
+    setTimeout(updateCounter, 1000);
+  }
 
   
   const formatNumber = (num) => {
     return num.toString().padStart(6, '0').split('');
-  }
+  };
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '2rem', color: 'white', background: 'black', padding: '20px', borderRadius: '10px' }}>
@@ -25,6 +31,6 @@ const ContadorSegundos = () => {
       ))}
     </div>
   );
-}
+};
 
 export default ContadorSegundos;
